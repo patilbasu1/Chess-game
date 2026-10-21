@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <!-- Coin Flip Modal -->
+        <div id="coinFlipModal" class="coin-flip-modal" style="display: none;">
+            <div class="coin-flip-container">
+                <h2>Coin Flip - Who Goes First?</h2>
+                <div class="coin-flip-wrapper">
+                    <div id="coin" class="coin">
+                        <div class="coin-face coin-heads">HEADS</div>
+                        <div class="coin-face coin-tails">TAILS</div>
+                    </div>
+                </div>
+                <p class="coin-choice-text">Pick HEADS or TAILS before flipping:</p>
+                <div class="coin-choice-buttons">
+                    <button id="chooseHeads" class="coin-choice-btn">HEADS</button>
+                    <button id="chooseTails" class="coin-choice-btn">TAILS</button>
+                </div>
+                <p id="coinResult" style="font-size: 1.5em; margin-top: 30px; font-weight: bold; color: #27ae60; display: none;"></p>
+            </div>
+        </div>
+
+        <!-- Pawn Promotion Modal -->
+        <div id="promotionModal" class="promotion-modal" style="display: none;">
+            <div class="promotion-box">
+                <h3>Pawn Promotion!</h3>
+                <p>Choose a piece to promote your pawn:</p>
+                <div class="promotion-buttons">
+                    <button class="promotion-btn" data-piece="queen">♕ Queen</button>
+                    <button class="promotion-btn" data-piece="rook">♖ Rook</button>
+                    <button class="promotion-btn" data-piece="bishop">♗ Bishop</button>
+                    <button class="promotion-btn" data-piece="knight">♘ Knight</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+        <header>
+            <h1>♟ Chess Game ♟</h1>
+            <p class="subtitle">An Interactive Chess Experience</p>
+        </header>
+
+        <!-- Mode Selection Screen -->
+        <div id="modeScreen" class="mode-screen">
+            <div class="mode-modal">
+                <h2>Select Game Mode</h2>
+                <p>How would you like to play?</p>
+                <div class="difficulty-section">
+                    <h3>Difficulty</h3>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-btn selected" data-difficulty="normal">Normal</button>
+                        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                        <button class="difficulty-btn" data-difficulty="expert">Expert</button>
+                    </div>
+                </div>
+                <div class="theme-section">
+                    <h3>Theme</h3>
+                    <div class="theme-buttons">
+                        <button class="theme-btn selected" data-theme="light">Light</button>
+                        <button class="theme-btn" data-theme="dark">Dark</button>
+                        <button class="theme-btn" data-theme="classic">Classic</button>
+                    </div>
+                </div>
+                <div class="mode-buttons">
+                    <button id="pvpBtn" class="mode-btn">
+                        <span class="mode-icon">👥</span>
+                        <span class="mode-title">Player vs Player</span>
+                        <span class="mode-desc">Play with a friend</span>
+                    </button>
+                    <button id="pvcomputerBtn" class="mode-btn">
+                        <span class="mode-icon">🤖</span>
+                        <span class="mode-title">Player vs Computer</span>
+                        <span class="mode-desc">Challenge the AI</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content" id="gameScreen" style="display: none;">
+            <div class="game-info">
+                <div class="info-section">
+                    <h2>Game Status</h2>
+                    <div class="status-box">
+                        <p><strong>Current Turn:</strong> <span id="currentTurn" class="white-text">White</span></p>
+                        <p><strong>Status:</strong> <span id="gameStatus">Playing</span></p>
+                        <p id="gameMode" class="mode-info"></p>
+                        <p id="moveCounter" style="font-size: 0.9em; color: #7f8c8d;"></p>
+                        <p id="checkWarning" class="check-warning"></p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2>Captured Pieces</h2>
+                    <div class="captured-pieces">
+                        <div class="captured-group">
+                            <h3>White Captured:</h3>
+                            <div id="whiteCaptured" class="captured-list"></div>
+                        </div>
+                        <div class="captured-group">
+                            <h3>Black Captured:</h3>
+                            <div id="blackCaptured" class="captured-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2>Controls</h2>
+                    <div class="controls">
+                        <button id="hintBtn" class="btn btn-hint">💡 Get Hint</button>
+                        <button id="resetBtn" class="btn btn-primary">New Game</button>
+                        <button id="backBtn" class="btn btn-secondary">Back to Menu</button>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2>How to Play</h2>
+                    <div class="hint-box">
+                        <p>• <strong>Click any piece</strong> to see where it can move</p>
+                        <p>• <strong>Green dots</strong> = available moves</p>
+                        <p>• <strong>Red border</strong> = capture moves</p>
+                        <p>• <strong>💡 Hint button</strong> for AI suggestions</p>
+                        <p style="margin-top: 10px; font-weight: bold; color: #c0392b;">Advanced Rules:</p>
+                        <p style="font-size: 0.8em;">✓ Pawn Promotion | ✓ Castling | ✓ En Passant</p>
+                        <p style="font-size: 0.8em;">✓ Check/Checkmate | ✓ Stalemate</p>
+                        <p style="font-size: 0.8em;">✓ 50-Move Rule | ✓ Three-Fold Repetition</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div id="board" class="board">
+                    <!-- Board will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="move-history" id="moveHistorySection" style="display: none;">
+            <h2>Move History</h2>
+            <div id="moveHistory" class="move-list"></div>
+        </div>
+    </div>
+
+    <script src="chess.js"></script>
+</body>
+</html> 
